@@ -8,9 +8,8 @@ namespace Bulkybook2.Models
         public int CategoryId { get; set; }
         [Required]
         public string Name { get; set; }
-        [Required]
-        public string Order { get; set; }
-        public DateTime Date { get; set; } = DateTime.Now;
+        public int DisplayOrder { get; set; }
+        public DateTime CreatedDateTime { get; set; } = DateTime.Now;
 
     }
 }
