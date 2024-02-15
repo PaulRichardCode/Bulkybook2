@@ -25,8 +25,15 @@ namespace Bulkybook2.Controllers
         {
             dbContext.Categories.Add(category);
             dbContext.SaveChanges();
+
+           //// RedirectToAction("List", "Category");
             return View();
         }
 
+        public IActionResult List()
+        {
+            var student = dbContext.Categories.ToList();
+            return View(student);
+        }
     }
 }
