@@ -1,5 +1,6 @@
 ﻿using Bulkybook2.Models;
 using Microsoft.AspNetCore.Mvc;
+using static Azure.Core.HttpHeader;
 
 namespace Bulkybook2.Controllers
 {
@@ -34,6 +35,18 @@ namespace Bulkybook2.Controllers
         {
             var student = dbContext.Categories.ToList();
             return View(student);
+        }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var names = dbContext.Categories.Find(id);
+
+            if (names == null)
+            {
+                return NotFound();
+                
+            }
+            return View(names);
         }
     }
 }
