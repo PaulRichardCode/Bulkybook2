@@ -45,7 +45,7 @@ namespace Bulkybook2.Controllers
                 
             }
             var names = dbContext.Categories.Find(id);
-
+            
             if (names == null)
             {
                 return NotFound();
@@ -55,8 +55,9 @@ namespace Bulkybook2.Controllers
         //post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Category obj)
+        public async Task<IActionResult> Edit(Category obj)
         {
+             
             if(obj.Name == obj.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("name", "The display order cannot match the name");
@@ -69,7 +70,7 @@ namespace Bulkybook2.Controllers
             }
            
 
-            // Redirect to the action "List"
+            // Redirect to the action "List" bro
             return View(obj);
 
         }
