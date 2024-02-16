@@ -1,5 +1,6 @@
 ﻿using Bulkybook2.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using static Azure.Core.HttpHeader;
 
 namespace Bulkybook2.Controllers
@@ -26,8 +27,8 @@ namespace Bulkybook2.Controllers
         {
             dbContext.Categories.Add(category);
             dbContext.SaveChanges();
-            RedirectToAction("List", "Category");
-            return View();
+            return RedirectToAction("List", "Category");
+            
         }
 
         public IActionResult List()
@@ -36,26 +37,53 @@ namespace Bulkybook2.Controllers
             return View(student);
         }
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+                
+            }
             var names = dbContext.Categories.Find(id);
 
             if (names == null)
             {
                 return NotFound();
-                
             }
             return View(names);
         }
-
+        //post
         [HttpPost]
-        public IActionResult Edit(Category category)
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category obj)
         {
-            dbContext.Categories.Update(category);
-            dbContext.SaveChanges();
+            if(obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("name", "The display order cannot match the name");
+            }
+            if (ModelState.IsValid)
+            {
+                dbContext.Categories.Update(obj);
+                dbContext.SaveChanges();
+                return RedirectToAction("List");
+            }
+           
 
-            RedirectToAction("List", "Category");
-            return View();
+            // Redirect to the action "List"
+            return View(obj);
+
+        }
+
+       public IActionResult Delete(int id)
+        {
+            var dele = dbContext.Categories.Find(id);
+            if(dele == null)
+            {
+                return NotFound();  
+            }
+            dbContext.Categories.Remove(dele);
+            dbContext.SaveChanges();
+            return RedirectToAction("List");
         }
     }
 }
