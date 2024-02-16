@@ -55,7 +55,7 @@ namespace Bulkybook2.Controllers
         //post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Category obj)
+        public IActionResult Edit(Category obj)
         {
              
             if(obj.Name == obj.DisplayOrder.ToString())
@@ -70,7 +70,7 @@ namespace Bulkybook2.Controllers
             }
            
 
-            // Redirect to the action "List" bro
+            // Redirect to the action "List"
             return View(obj);
 
         }
