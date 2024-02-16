@@ -26,8 +26,7 @@ namespace Bulkybook2.Controllers
         {
             dbContext.Categories.Add(category);
             dbContext.SaveChanges();
-
-           //// RedirectToAction("List", "Category");
+            RedirectToAction("List", "Category");
             return View();
         }
 
@@ -47,6 +46,16 @@ namespace Bulkybook2.Controllers
                 
             }
             return View(names);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category category)
+        {
+            dbContext.Categories.Update(category);
+            dbContext.SaveChanges();
+
+            RedirectToAction("List", "Category");
+            return View();
         }
     }
 }
